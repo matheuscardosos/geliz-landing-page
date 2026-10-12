@@ -1,18 +1,4 @@
-<!--
-  Created by: math.scs
-  Original author: math.scs
--->
 <svg viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000">
-  <metadata>
-    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-             xmlns:dc="http://purl.org/dc/elements/1.1/">
-      <rdf:Description>
-        <dc:creator>math.scs</dc:creator>
-        <dc:rights>Created by math.scs</dc:rights>
-      </rdf:Description>
-    </rdf:RDF>
-  </metadata>
-
   <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
   <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
   <g id="SVGRepo_iconCarrier">
