@@ -89,7 +89,7 @@ export const FLAVORS = [
     name: "Amor Cravejado",
     fruit: P + "/img/morango.svg",
     full: "Amor Cravejado",
-    word: "amor",
+    word: "amor cravejado",
     accent: "#E8294A",
     tint: "#FFE9EA",
     pop: P + "/img/geliz_amor_cravejado.webp",
