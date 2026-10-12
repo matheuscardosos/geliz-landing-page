@@ -122,7 +122,7 @@ const Coupon = () => {
 
 /* ── address section ── */
 
-const AddressSection = ({ address, setAddress, mode, setMode }) => {
+const AddressSection = ({ address, setAddress }) => {
   const [loadingCep, setLoadingCep] = useState(false);
 
   const fetchCep = useCallback(async (cep) => {
@@ -155,36 +155,25 @@ const AddressSection = ({ address, setAddress, mode, setMode }) => {
 
   return (
     <div className="space-y-4">
-      <div>
-        <Label>Como prefere receber</Label>
-        <div className="mt-2 flex gap-2">
-          {[["entrega", "Entrega"], ["retirada", "Retirar na loja"]].map(([id, label]) => (
-            <button key={id} type="button" onClick={() => setMode(id)} className={`h-10 rounded-full border px-5 text-sm font-medium transition-colors ${mode === id ? "border-app-text bg-app-invert text-app-invert-text" : "border-app-border bg-app-surface"}`}>
-              {label}
-            </button>
-          ))}
+      <Label>Endereço de entrega</Label>
+      <div className="space-y-3">
+        <div className="relative">
+          <Input label="CEP" value={address.cep} onChange={set("cep")} placeholder="00000-000" inputMode="numeric" maxLength={9} />
+          {loadingCep && <span className="absolute right-4 top-9 text-xs text-app-muted">Buscando...</span>}
+        </div>
+        <Input label="Rua" value={address.street} onChange={set("street")} placeholder="Nome da rua" />
+        <div className="grid grid-cols-2 gap-3">
+          <Input label="Número" value={address.number} onChange={set("number")} placeholder="Nº" />
+          <Input label="Complemento" value={address.complement} onChange={set("complement")} placeholder="Apto, bloco..." />
+        </div>
+        <Input label="Bairro" value={address.neighborhood} onChange={set("neighborhood")} placeholder="Bairro" />
+        <div className="grid grid-cols-3 gap-3">
+          <div className="col-span-2">
+            <Input label="Cidade" value={address.city} onChange={set("city")} placeholder="Cidade" />
+          </div>
+          <Input label="Estado" value={address.state} onChange={set("state")} placeholder="UF" maxLength={2} />
         </div>
       </div>
-      {mode === "entrega" && (
-        <div className="space-y-3">
-          <div className="relative">
-            <Input label="CEP" value={address.cep} onChange={set("cep")} placeholder="00000-000" inputMode="numeric" maxLength={9} />
-            {loadingCep && <span className="absolute right-4 top-9 text-xs text-app-muted">Buscando...</span>}
-          </div>
-          <Input label="Rua" value={address.street} onChange={set("street")} placeholder="Nome da rua" />
-          <div className="grid grid-cols-2 gap-3">
-            <Input label="Número" value={address.number} onChange={set("number")} placeholder="Nº" />
-            <Input label="Complemento" value={address.complement} onChange={set("complement")} placeholder="Apto, bloco..." />
-          </div>
-          <Input label="Bairro" value={address.neighborhood} onChange={set("neighborhood")} placeholder="Bairro" />
-          <div className="grid grid-cols-3 gap-3">
-            <div className="col-span-2">
-              <Input label="Cidade" value={address.city} onChange={set("city")} placeholder="Cidade" />
-            </div>
-            <Input label="Estado" value={address.state} onChange={set("state")} placeholder="UF" maxLength={2} />
-          </div>
-        </div>
-      )}
     </div>
   );
 };
@@ -410,7 +399,8 @@ export const CheckoutPage = () => {
   const { items, coupon, checkout, setCheckout, clear, setCoupon, count } = useBag();
   const { user } = useAuth();
   const { addSale, couponRate, useCoupon } = useStore();
-  const [mode, setMode] = useState("entrega");
+  // ponytail: retirada desativada por enquanto (issue #58), todo pedido sai como entrega
+  const mode = "entrega";
   const [method, setMethod] = useState("cartao");
   const [address, setAddress] = useState(() => user?.address || EMPTY_ADDRESS);
   const [stage, setStage] = useState("form"); // form | pix | success
@@ -551,7 +541,7 @@ export const CheckoutPage = () => {
 
           {/* Right column: address + payment */}
           <div className="space-y-8 lg:col-span-7">
-            <AddressSection address={address} setAddress={setAddress} mode={mode} setMode={setMode} />
+            <AddressSection address={address} setAddress={setAddress} />
             <PaymentSection method={method} setMethod={setMethod} troco={troco} setTroco={setTroco} total={t.total} />
 
             <button
